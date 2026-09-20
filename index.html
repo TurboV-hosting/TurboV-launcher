@@ -1,1 +1,679 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TurboV Launcher - Best Game Launcher Ever!</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- FontAwesome fallback for rich gaming icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        turbo: {
+                            purple: '#8b5cf6',
+                            emerald: '#10b981',
+                            dark: '#0a0f1d',
+                            card: '#131b2e',
+                            border: '#1f2d48',
+                            hover: '#1a263e'
+                        }
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: 0.6, transform: 'scale(1)' },
+                            '50%': { opacity: 0.9, transform: 'scale(1.05)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 6s ease-in-out infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0f1d;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0f1d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2d48;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6;
+        }
+
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(19, 27, 46, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(139, 92, 246, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-button {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .gradient-button:hover {
+            box-shadow: 0 6px 28px rgba(139, 92, 246, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .discord-button {
+            background: #5865F2;
+            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .discord-button:hover {
+            background: #4752C4;
+            box-shadow: 0 6px 25px rgba(88, 101, 242, 0.5);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Nav -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform duration-300">
+                    <i class="fa-solid fa-rocket text-white text-xl"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-xl tracking-tight text-white group-hover:text-purple-400 transition-colors">TurboV<span class="text-emerald-400">Launcher</span></span>
+                    <span class="block text-[10px] text-gray-400 font-mono tracking-widest uppercase -mt-1">Work In Progress</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#features" class="text-gray-300 hover:text-purple-400 transition-colors">Reasons to Use</a>
+                <a href="#preview" class="text-gray-300 hover:text-purple-400 transition-colors">Interactive Demo</a>
+                <a href="#community" class="text-gray-300 hover:text-purple-400 transition-colors">Community</a>
+            </nav>
+
+            <!-- Header Action Buttons -->
+            <div class="flex items-center space-x-3">
+                <a href="https://discord.gg/Tva9yh7z5a" target="_blank" rel="noopener noreferrer" class="discord-button px-4 py-2 rounded-lg text-white font-medium text-sm hidden sm:flex items-center space-x-2">
+                    <i class="fa-brands fa-discord text-lg"></i>
+                    <span>Discord</span>
+                </a>
+                <a href="https://github.com/TurboV-hosting/launcherdownloader/releases/download/alpha/TurboV-launcher.zip" class="gradient-button px-4 py-2 rounded-lg text-white font-semibold text-sm flex items-center space-x-2">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download Alpha</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+        <!-- Ambient Glowing Background Bubbles -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow"></div>
+        <div class="absolute top-1/3 right-10 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto space-y-6">
+                
+                <!-- Badge indicating WIP -->
+                <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-purple-950/80 border border-purple-500/30 text-purple-300 text-xs sm:text-sm font-semibold tracking-wide shadow-sm backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 -ml-4"></span>
+                    <i class="fa-solid fa-flask-vial text-emerald-400 ml-1"></i>
+                    <span>This is a work in progress!</span>
+                    <span class="bg-purple-800/60 px-2 py-0.5 rounded text-[10px] uppercase font-mono text-purple-200">Alpha Build</span>
+                </div>
+
+                <!-- Main Title Header -->
+                <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+                    TurboV Launcher <br>
+                    <span class="gradient-text">The Best Game Launcher Ever!</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-lg sm:text-xl text-gray-300 leading-relaxed font-normal max-w-2xl mx-auto">
+                    Take control of your PC gaming library with a blistering fast, lightweight, and zero-bloat launcher designed by gamers for gamers. Completely free forever.
+                </p>
+
+                <!-- Primary Call To Actions -->
+                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="https://github.com/TurboV-hosting/launcherdownloader/releases/download/alpha/TurboV-launcher.zip" class="w-full sm:w-auto gradient-button px-8 py-4 rounded-xl text-white font-bold text-base flex items-center justify-center space-x-3 group">
+                        <i class="fa-solid fa-circle-down text-xl group-hover:bounce"></i>
+                        <div class="text-left">
+                            <span class="block text-xs text-purple-200 uppercase tracking-wider font-semibold">Direct Download</span>
+                            <span class="block text-base leading-none">Download TurboV Launcher</span>
+                        </div>
+                    </a>
+
+                    <a href="https://discord.gg/Tva9yh7z5a" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto discord-button px-8 py-4 rounded-xl text-white font-bold text-base flex items-center justify-center space-x-3">
+                        <i class="fa-brands fa-discord text-2xl"></i>
+                        <div class="text-left">
+                            <span class="block text-xs text-indigo-200 uppercase tracking-wider font-semibold">Join Developer Server</span>
+                            <span class="block text-base leading-none">Join Discord Community</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Trust Callouts -->
+                <div class="pt-6 flex flex-wrap justify-center items-center gap-6 text-xs sm:text-sm text-gray-400 font-medium">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-ban text-emerald-400"></i>
+                        <span>100% Free & No Ads</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-bolt text-purple-400"></i>
+                        <span>Instant Startup</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-heart text-red-400"></i>
+                        <span>No Selling / No Paywalls</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Launcher Interactive Mockup Container -->
+            <div id="preview" class="mt-16 sm:mt-20 max-w-6xl mx-auto">
+                <div class="relative rounded-2xl p-2 sm:p-3 bg-[#11141b] border border-gray-800 shadow-2xl shadow-purple-950/40 text-left font-sans">
+                    
+                    <!-- Top Window Bar (Native Windows Look) -->
+                    <div class="flex items-center justify-between px-3 py-1.5 bg-[#0d0f15] rounded-t-xl border-b border-gray-800/80 text-xs text-gray-400 select-none">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-rocket text-purple-400 text-xs"></i>
+                            <span class="font-medium text-gray-300 text-[11px]">TurboV Launcher</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-gray-500 text-xs">
+                            <span class="hover:text-white cursor-pointer"><i class="fa-solid fa-minus"></i></span>
+                            <span class="hover:text-white cursor-pointer"><i class="fa-regular fa-square"></i></span>
+                            <span class="hover:text-red-400 cursor-pointer"><i class="fa-solid fa-xmark"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- App Navigation Bar (Replicating Screenshot Header) -->
+                    <div class="bg-[#151922] px-4 py-3 border-b border-gray-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                        <!-- Logo -->
+                        <div class="flex items-center space-x-2">
+                            <span class="font-black text-xl tracking-wider text-white">TURBO<span class="text-indigo-400">V</span></span>
+                        </div>
+
+                        <!-- Right Search & Action Controls -->
+                        <div class="flex items-center flex-wrap gap-2 ml-auto">
+                            <!-- Search -->
+                            <div class="relative w-44 sm:w-56">
+                                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-[10px] text-gray-400"></i>
+                                <input type="text" id="demo-search" placeholder="Search games & apps..." onkeyup="filterDemoGames()" class="w-full bg-[#0d0f15] text-gray-200 text-xs pl-7 pr-2 py-1.5 rounded border border-gray-700/60 focus:outline-none focus:border-indigo-500">
+                            </div>
+
+                            <!-- Platform Filter -->
+                            <select class="bg-[#0d0f15] border border-gray-700/60 text-gray-300 text-xs px-2.5 py-1.5 rounded cursor-pointer focus:outline-none">
+                                <option>All Platforms</option>
+                                <option>Steam</option>
+                                <option>Standalone</option>
+                            </select>
+
+                            <!-- Actions -->
+                            <button class="bg-[#1f2636] hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded border border-gray-700 flex items-center space-x-1 font-medium transition">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                                <span>Add Game</span>
+                            </button>
+                            <button class="bg-[#1f2636] hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded border border-gray-700 font-medium transition">
+                                Sync
+                            </button>
+                            <button class="bg-[#1f2636] hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded border border-gray-700 flex items-center space-x-1 font-medium transition">
+                                <i class="fa-solid fa-gear text-[11px]"></i>
+                                <span>Settings</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Launcher Body Container (Grid + Details Drawer) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 bg-[#0c0e14] rounded-b-xl min-h-[520px] overflow-hidden">
+                        
+                        <!-- Main Games Grid Area (8 or 9 cols) -->
+                        <div class="lg:col-span-8 xl:col-span-9 p-4 overflow-y-auto max-h-[580px] scrollbar-thin">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3" id="demo-games-grid">
+                                <!-- Populated dynamically by JS matching exact screenshot items -->
+                            </div>
+                        </div>
+
+                        <!-- Right Drawer: Game Details Panel (Matches Screenshot Automation view) -->
+                        <div id="game-detail-panel" class="lg:col-span-4 xl:col-span-3 bg-[#11141c] border-t lg:border-t-0 lg:border-l border-gray-800 p-4 flex flex-col justify-between space-y-4">
+                            <div class="space-y-3">
+                                <!-- Banner Image -->
+                                <div class="relative rounded-lg overflow-hidden border border-gray-800 bg-gray-900 h-28 sm:h-32 group">
+                                    <img id="detail-img" src="https://placehold.co/400x200/182033/ffffff?text=AUTOMATION" alt="Game Banner" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-[#11141c] via-transparent to-transparent"></div>
+                                </div>
+
+                                <!-- Game Title & Tags -->
+                                <div>
+                                    <h3 id="detail-title" class="font-extrabold text-base text-white leading-tight">Automation The car company tycoon game</h3>
+                                    <p id="detail-tags" class="text-[10px] text-gray-400 mt-1 leading-snug">
+                                        <strong class="text-gray-300">Tags:</strong> Indie, Racing, Simulation, Strategy, Early Access
+                                    </p>
+                                </div>
+
+                                <!-- Description -->
+                                <p id="detail-desc" class="text-[11px] text-gray-300 leading-relaxed border-t border-gray-800/80 pt-2.5">
+                                    Make your dream cars a reality with Automation's unparalleled car and engine design tools. Gain a competitive edge through smart engineering and business decisions to help you build an automotive empire.
+                                </p>
+
+                                <!-- Installed DLCs -->
+                                <div class="space-y-1.5 border-t border-gray-800/80 pt-2.5">
+                                    <span class="text-[11px] font-bold text-white block">Installed DLCs</span>
+                                    <ul id="detail-dlcs" class="space-y-1 text-[10px] text-gray-400 bg-[#0a0c12] p-2 rounded border border-gray-800/60 max-h-24 overflow-y-auto">
+                                        <li class="flex items-center space-x-1.5">
+                                            <i class="fa-solid fa-check text-indigo-400 text-[9px]"></i>
+                                            <span>Supporter Pack - Official Soundtrack</span>
+                                        </li>
+                                        <li class="flex items-center space-x-1.5">
+                                            <i class="fa-solid fa-check text-indigo-400 text-[9px]"></i>
+                                            <span>Supporter Pack - V16 Engine</span>
+                                        </li>
+                                        <li class="flex items-center space-x-1.5">
+                                            <i class="fa-solid fa-check text-indigo-400 text-[9px]"></i>
+                                            <span>Automation - Original Soundtrack</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Friends Playing Section -->
+                                <div class="border-t border-gray-800/80 pt-2.5">
+                                    <span class="text-[11px] font-bold text-white block mb-1">Friends Playing This Game</span>
+                                    <p class="text-[10px] text-gray-500 italic">No friends currently playing.</p>
+                                </div>
+                            </div>
+
+                            <!-- Launch Button Bottom Right -->
+                            <div class="pt-2">
+                                <button onclick="triggerSimulatedLaunch(document.getElementById('detail-title').innerText)" class="w-full bg-[#5b6bf9] hover:bg-[#4a5ae8] text-white font-bold py-2.5 px-4 rounded-lg text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-900/30">
+                                    Launch Game
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Reasons to Use This Launcher Section -->
+    <section id="features" class="py-20 bg-slate-950/60 border-y border-gray-800/80 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs font-extrabold uppercase tracking-widest text-emerald-400">Why Choose TurboV?</h2>
+                <p class="text-3xl sm:text-5xl font-extrabold text-white">Reasons to Use This Launcher</p>
+                <p class="text-gray-400 text-base sm:text-lg">
+                    We built TurboV because existing launchers are bloated with stores, social feeds, and memory-hogging web engines. TurboV does one thing perfectly: launching your games instantly.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Reason 1 -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-gauge-high"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Ultra Lightweight Performance</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Uses under 20MB of RAM at idle and launches in under a quarter of a second. Zero resource drain so every byte of memory goes straight to your game's FPS.
+                    </p>
+                </div>
+
+                <!-- Reason 2 -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-cubes-stacked"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Unified Game Library</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Organize games installed anywhere on your system in one unified, sleek dashboard regardless of origin, folder location, or executable type.
+                    </p>
+                </div>
+
+                <!-- Reason 3 -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">100% Free & Doesn't Sell Anything</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        TurboV is strictly a game launcher tool. There are zero microtransactions, no built-in store, no advertisements, and no tracking or data monetization.
+                    </p>
+                </div>
+
+                <!-- Reason 4 -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Full Theme Customization</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Customize color accents, custom game poster artwork, layout sizing, and dark mode tones so your gaming hub looks exactly the way you want it.
+                    </p>
+                </div>
+
+                <!-- Reason 5 -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">One-Click Play & Time Tracking</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Quickly launch games with customizable launch arguments, auto-close launcher routines, and built-in offline session time tracking.
+                    </p>
+                </div>
+
+                <!-- Reason 6 -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Community First Development</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Built openly with feedback from the Discord community. Request features directly, report bugs in alpha, and test brand new updates first hand.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Community & Discord Banner Section -->
+    <section id="community" class="py-20 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl bg-gradient-to-r from-indigo-950 via-purple-950 to-slate-900 border border-indigo-500/30 p-8 sm:p-12 overflow-hidden shadow-2xl">
+                <!-- Decorative background elements -->
+                <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="space-y-4 text-center md:text-left max-w-xl">
+                        <div class="inline-flex items-center space-x-2 text-indigo-400 text-xs font-mono font-semibold uppercase tracking-wider">
+                            <i class="fa-brands fa-discord text-base"></i>
+                            <span>Active Alpha Tester Hub</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                            Join the TurboV Community
+                        </h2>
+                        <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                            Have ideas for the launcher? Want to test new alpha updates, report bugs, or request custom features? Hop into our Discord server today!
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+                        <a href="https://discord.gg/Tva9yh7z5a" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto discord-button px-8 py-4 rounded-xl text-white font-bold text-base flex items-center justify-center space-x-3 text-center">
+                            <i class="fa-brands fa-discord text-2xl"></i>
+                            <span>Join Discord Server</span>
+                        </a>
+                        <a href="https://github.com/TurboV-hosting/launcherdownloader/releases/download/alpha/TurboV-launcher.zip" class="w-full sm:w-auto bg-gray-800/80 hover:bg-gray-700 text-gray-200 border border-gray-600/50 px-6 py-4 rounded-xl font-semibold text-sm text-center transition">
+                            Download Alpha .ZIP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-gray-800/80 pt-12 pb-8 text-sm text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                
+                <!-- Brand Info -->
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-emerald-400 flex items-center justify-center text-white font-bold">
+                            <i class="fa-solid fa-rocket text-sm"></i>
+                        </div>
+                        <span class="font-extrabold text-lg text-white">TurboV Launcher</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed max-w-sm">
+                        An ultra-fast, clean game launcher application built to manage local game shortcuts seamlessly without bloat.
+                    </p>
+                </div>
+
+                <!-- Quick Download & Community Links -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-gray-300 block mb-3">Direct Links</span>
+                    <ul class="space-y-2 text-xs">
+                        <li>
+                            <a href="https://github.com/TurboV-hosting/launcherdownloader/releases/download/alpha/TurboV-launcher.zip" class="text-purple-400 hover:text-purple-300 flex items-center space-x-2">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Download Alpha (TurboV-launcher.zip)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.gg/Tva9yh7z5a" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-indigo-300 flex items-center space-x-2">
+                                <i class="fa-brands fa-discord"></i>
+                                <span>Official Discord (https://discord.gg/Tva9yh7z5a)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Status Badge Footer -->
+                <div class="space-y-2 md:text-right">
+                    <span class="inline-block bg-purple-900/40 text-purple-300 border border-purple-700/50 px-3 py-1 rounded-full text-xs font-mono font-medium">
+                        Status: Work in Progress (Alpha)
+                    </span>
+                    <p class="text-xs text-gray-500">Updated regelmäßig & non-commercial tool.</p>
+                </div>
+
+            </div>
+
+            <hr class="border-gray-800/80">
+
+            <!-- MANDATORY LEGAL DISCLAIMER & COPYRIGHT -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-xs">
+                <!-- Explicit Disclaimer Request -->
+                <div class="p-3 rounded-lg bg-gray-900/80 border border-gray-800 text-gray-300 max-w-3xl">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-2"></i>
+                    <span><strong>Disclaimer:</strong> We are not associated with Steam/Valve or any game company this is purely a launcher for games.</span>
+                </div>
+
+                <div class="text-gray-500 font-mono text-[11px]">
+                    &copy; TurboV Launcher. All rights reserved.
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Simulated Launch Modal -->
+    <div id="launch-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel p-6 sm:p-8 rounded-2xl max-w-md w-full border border-purple-500/40 text-center space-y-4">
+            <div class="w-16 h-16 rounded-2xl bg-purple-600/20 text-purple-400 border border-purple-500/40 mx-auto flex items-center justify-center text-3xl">
+                <i class="fa-solid fa-play animate-pulse"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-white" id="modal-game-title">Launching Game...</h3>
+            <p class="text-xs text-gray-400" id="modal-game-desc">TurboV process routine initialized. System priority optimized.</p>
+            
+            <div class="w-full bg-gray-900 rounded-full h-2 overflow-hidden border border-gray-800">
+                <div class="bg-gradient-to-r from-purple-500 to-emerald-400 h-full w-full animate-pulse"></div>
+            </div>
+
+            <p class="text-[11px] text-emerald-400 font-mono">Simulated execution trigger. In actual TurboV, your game opens instantly!</p>
+
+            <button onclick="closeModal()" class="w-full py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold rounded-lg transition border border-gray-700">
+                Close Simulation
+            </button>
+        </div>
+    </div>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        // Exact 18 tile games/apps matching screenshot provided
+        const mockGames = [
+            { id: 1, title: "OBS Studio", appid: "", dlcCount: 0, tags: "Tools, Streaming, Utility", desc: "Open source video recording and live streaming software.", bg: "#1a1f2e", text: "OBS Studio", img: "https://placehold.co/180x100/182030/8b5cf6?text=OBS+Studio" },
+            { id: 2, title: "Standable: Full Body Estimation", appid: "", dlcCount: 0, tags: "VR, Utility, Tracking", desc: "Full body estimation for VR setups.", bg: "#151e2b", text: "STANDABLE", img: "https://placehold.co/180x100/0f2b38/10b981?text=STANDABLE" },
+            { id: 3, title: "appid 250820", appid: "250820", dlcCount: 0, tags: "Steam App, Utility", desc: "Steam VR runtime component package.", bg: "#0d141e", text: "SteamVR", img: "https://placehold.co/180x100/152035/38bdf8?text=SteamVR" },
+            { id: 4, title: "OBS Studio", appid: "", dlcCount: 0, tags: "Tools, Streaming", desc: "Secondary instance shortcut for OBS.", bg: "#1a1f2e", text: "OBS Studio", img: "https://placehold.co/180x100/182030/8b5cf6?text=OBS+Studio" },
+            { id: 5, title: "Standable: Full Body Estimation", appid: "", dlcCount: 0, tags: "VR, Utility", desc: "Standable tracking algorithm server.", bg: "#151e2b", text: "STANDABLE", img: "https://placehold.co/180x100/0f2b38/10b981?text=STANDABLE" },
+            { id: 6, title: "appid 250820", appid: "250820", dlcCount: 0, tags: "Steam App", desc: "Steam VR system process target.", bg: "#0d141e", text: "SteamVR", img: "https://placehold.co/180x100/152035/38bdf8?text=SteamVR" },
+            { id: 7, title: "Sea of Thieves", appid: "", dlcCount: 4, tags: "Action, Adventure, Pirate, Multiplayer", desc: "Be the pirate of your dreams in a vast ocean adventure.", bg: "#06221d", text: "Sea of Thieves", img: "https://placehold.co/180x100/042f2e/34d399?text=Sea+of+Thieves" },
+            { id: 8, title: "Arma Reforger", appid: "", dlcCount: 2, tags: "Military, FPS, Simulation", desc: "Powered by Enfusion engine, fight for supreme tactical control.", bg: "#1c2211", text: "Arma Reforger", img: "https://placehold.co/180x100/1e293b/f59e0b?text=Arma+Reforger" },
+            { id: 9, title: "BeamNG.drive", appid: "", dlcCount: 1, tags: "Physics, Driving, Simulator", desc: "Soft-body physics vehicle simulator offering endless possibilities.", bg: "#2a1708", text: "BeamNG.drive", img: "https://placehold.co/180x100/361e0c/f97316?text=BeamNG.drive" },
+            { id: 10, title: "Automation The car company tycoon game", appid: "", dlcCount: 3, tags: "Indie, Racing, Simulation, Strategy, Early Access", desc: "Make your dream cars a reality with Automation's unparalleled car and engine design tools. Gain a competitive edge through smart engineering.", bg: "#281216", text: "AUTOMATION", img: "https://placehold.co/180x100/3f1620/f43f5e?text=AUTOMATION" },
+            { id: 11, title: "VRCFaceTracking", appid: "", dlcCount: 0, tags: "VR, Utility, Avatar", desc: "Osc interface for face tracking in virtual worlds.", bg: "#111827", text: "VRC Face Tracking", img: "https://placehold.co/180x100/111827/9ca3af?text=VRC+Face+Tracking" },
+            { id: 12, title: "Upload Labs", appid: "", dlcCount: 0, tags: "Developer, Tools", desc: "Utility for managing cloud assets and uploads.", bg: "#111827", text: "Upload Labs", img: "https://placehold.co/180x100/1f2937/d1d5db?text=Upload+Labs" },
+            { id: 13, title: "Blender", appid: "", dlcCount: 0, tags: "3D, Animation, Design", desc: "Free and open source 3D creation suite.", bg: "#26190a", text: "Blender", img: "https://placehold.co/180x100/3b2410/f97316?text=Blender" },
+            { id: 14, title: "VRCVideoCacher", appid: "", dlcCount: 0, tags: "Utility, Cache", desc: "Video caching utility for VRChat worlds.", bg: "#111827", text: "VRCVideoCacher", img: "https://placehold.co/180x100/1f2937/9ca3af?text=VRCVideoCacher" },
+            { id: 15, title: "appid 431060", appid: "431060", dlcCount: 0, tags: "Wallpaper Engine, Utility", desc: "Live animated wallpapers on your desktop.", bg: "#0d1b2a", text: "Wallpaper Engine", img: "https://placehold.co/180x100/0284c7/ffffff?text=Wallpaper+Engine" },
+            { id: 16, title: "VRChat", appid: "", dlcCount: 0, tags: "VR, Multiplayer, Social", desc: "Imagine a space where anything is possible.", bg: "#0d1e36", text: "VRChat", img: "https://placehold.co/180x100/0284c7/38bdf8?text=VRChat" },
+            { id: 17, title: "Rustangelo", appid: "", dlcCount: 1, tags: "Utility, Painting", desc: "Automatic sign painter tool for games.", bg: "#2a1c0d", text: "Rustangelo", img: "https://placehold.co/180x100/451a03/eab308?text=Rustangelo" },
+            { id: 18, title: "VAIL", appid: "", dlcCount: 2, tags: "FPS, VR, Tactical", desc: "Tactical virtual reality shooter centered on combat mechanics.", bg: "#081e18", text: "VAIL VR", img: "https://placehold.co/180x100/064e3b/10b981?text=VAIL+VR" }
+        ];
+
+        let selectedGameIndex = 9; // Default selected: Automation
+
+        function renderMockGames(gamesList) {
+            const container = document.getElementById('demo-games-grid');
+            container.innerHTML = '';
+
+            if (gamesList.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-xs text-gray-500">No matching apps found in TurboV.</div>`;
+                return;
+            }
+
+            gamesList.forEach((game, index) => {
+                const isSelected = game.title === mockGames[selectedGameIndex].title;
+                const card = document.createElement('div');
+                card.className = `flex flex-col justify-between bg-[#151922] rounded border ${isSelected ? 'border-indigo-500 ring-1 ring-indigo-500' : 'border-gray-800/80 hover:border-gray-600'} p-1.5 cursor-pointer transition select-none group`;
+                card.onclick = () => selectGame(index);
+
+                card.innerHTML = `
+                    <div class="space-y-1.5">
+                        <!-- Thumbnail Image Container -->
+                        <div class="w-full h-16 sm:h-20 bg-gray-900 rounded overflow-hidden relative">
+                            <img src="${game.img}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        </div>
+                        <!-- App Name -->
+                        <div class="px-0.5">
+                            <h4 class="text-[11px] font-medium text-gray-200 truncate leading-tight">${game.title}</h4>
+                        </div>
+                    </div>
+                    <!-- Direct Play Button (Exact match from screenshot) -->
+                    <div class="mt-2">
+                        <button onclick="event.stopPropagation(); triggerSimulatedLaunch('${game.title}')" class="w-full bg-[#5b6bf9] hover:bg-[#4a5ae8] text-white font-bold py-1 px-2 rounded text-[10px] uppercase tracking-wider transition">
+                            PLAY
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectGame(index) {
+            selectedGameIndex = index;
+            const game = mockGames[index];
+            renderMockGames(mockGames);
+
+            // Update Right Detail Drawer
+            document.getElementById('detail-title').innerText = game.title;
+            document.getElementById('detail-tags').innerHTML = `<strong class="text-gray-300">Tags:</strong> ${game.tags}`;
+            document.getElementById('detail-desc').innerText = game.desc;
+            document.getElementById('detail-img').src = game.img;
+
+            // DLC list update
+            const dlcsList = document.getElementById('detail-dlcs');
+            if (game.dlcCount > 0) {
+                let dlcHtml = '';
+                for(let i=1; i<=game.dlcCount; i++) {
+                    dlcHtml += `
+                        <li class="flex items-center space-x-1.5">
+                            <i class="fa-solid fa-check text-indigo-400 text-[9px]"></i>
+                            <span>${game.title} - Expansion Pack #${i}</span>
+                        </li>
+                    `;
+                }
+                dlcsList.innerHTML = dlcHtml;
+            } else {
+                dlcsList.innerHTML = `<li class="text-gray-500 italic">No installed DLCs detected.</li>`;
+            }
+        }
+
+        function filterDemoGames() {
+            const query = document.getElementById('demo-search').value.toLowerCase();
+            const filtered = mockGames.filter(g => g.title.toLowerCase().includes(query) || g.tags.toLowerCase().includes(query));
+            renderMockGames(filtered);
+        }
+
+        function triggerSimulatedLaunch(title) {
+            document.getElementById('modal-game-title').innerText = `Launching ${title}...`;
+            document.getElementById('modal-game-desc').innerText = `TurboV Launcher process runner initiated for ${title}. Zero background overhead active.`;
+            document.getElementById('launch-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('launch-modal').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            renderMockGames(mockGames);
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        };
+    </script>
+</body>
+</html>
