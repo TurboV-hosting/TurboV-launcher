@@ -1,1 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>donate.ts — TurboV Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ideBgDark: '#0d1117',
+                        idePanelDark: '#161b22',
+                        ideBorderDark: '#30363d',
+                        ideTextDark: '#c9d1d9',
+                        ideMutedDark: '#8b949e',
+                        
+                        ideBgLight: '#f6f8fa',
+                        idePanelLight: '#ffffff',
+                        ideBorderLight: '#d0d7de',
+                        ideTextLight: '#24292f',
+                        ideMutedLight: '#57606a',
 
+                        syntaxKeyword: '#ff7b72',
+                        syntaxString: '#a5d6ff',
+                        syntaxFn: '#d2a8ff',
+                        syntaxVar: '#79c0ff',
+                        syntaxComment: '#8b949e',
+                        syntaxNum: '#f0883e',
+                        syntaxLightKeyword: '#cf222e',
+                        syntaxLightString: '#0a3069',
+                        syntaxLightFn: '#8250df',
+                        syntaxLightComment: '#6e7781'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        html.light {
+            color-scheme: light;
+        }
+        
+        /* Dark mode filter for the embedded widget iframe to invert and match IDE dark theme */
+        .dark #kofiframe-container {
+            background-color: #0d1117 !important;
+        }
+
+        .dark #kofiframe {
+            filter: invert(0.9) hue-rotate(180deg) contrast(1.05) brightness(0.95);
+            background-color: #121212 !important;
+            border-radius: 8px;
+        }
+
+        .light #kofiframe-container {
+            background-color: #f9f9f9 !important;
+        }
+
+        .light #kofiframe {
+            filter: none;
+            background-color: #f9f9f9 !important;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 4px;
+        }
+        .light .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: #d0d7de;
+        }
+    </style>
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('turbov_theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+</head>
+
+<body class="bg-ideBgDark dark:bg-ideBgDark light:bg-ideBgLight text-ideTextDark dark:text-ideTextDark light:text-ideTextLight min-h-screen flex flex-col justify-between font-sans antialiased transition-colors duration-200">
+
+    <header class="border-b border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight bg-idePanelDark dark:bg-idePanelDark light:bg-idePanelLight px-4 py-2.5 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Back Button to index.html -->
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg font-mono text-xs font-semibold bg-ideBgDark dark:bg-ideBgDark light:bg-ideBgLight border border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight hover:border-syntaxVar hover:text-syntaxVar transition-all duration-150 group">
+                    <span class="text-syntaxKeyword dark:text-syntaxKeyword light:text-syntaxLightKeyword">$</span>
+                    <span>cd ../</span>
+                    <span class="text-ideMutedDark dark:text-ideMutedDark light:text-ideMutedLight group-hover:text-syntaxVar">(back to main)</span>
+                </a>
+
+                <div class="hidden sm:flex items-center gap-2 text-xs font-mono text-ideMutedDark dark:text-ideMutedDark light:text-ideMutedLight border-l border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight pl-3">
+                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>workspace / donate.ts</span>
+                </div>
+            </div>
+
+            <!-- Theme Toggle Switch -->
+            <div class="flex items-center gap-3">
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono font-medium border border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight bg-ideBgDark dark:bg-ideBgDark light:bg-ideBgLight hover:bg-stone-800 dark:hover:bg-stone-800 light:hover:bg-stone-200 transition-colors" title="Toggle Light/Dark Theme">
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeLabel" class="hidden xs:inline">Dark</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto w-full flex-grow p-4 sm:p-6 md:p-8">
+        
+        <div class="rounded-xl border border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight bg-idePanelDark dark:bg-idePanelDark light:bg-idePanelLight shadow-2xl overflow-hidden">
+            
+            <!-- Window Titlebar -->
+            <div class="flex items-center justify-between px-4 py-3 bg-ideBgDark/80 dark:bg-ideBgDark/80 light:bg-stone-200/60 border-b border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight font-mono text-xs">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 cursor-pointer"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 cursor-pointer"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/80 hover:bg-green-500 cursor-pointer"></div>
+                    <span class="ml-2 text-ideMutedDark dark:text-ideMutedDark light:text-ideMutedLight hidden sm:inline">TurboV Support Module v2.0.26</span>
+                </div>
+
+                <div class="flex items-center gap-1">
+                    <span class="px-2 py-0.5 rounded bg-stone-800 dark:bg-stone-800 light:bg-stone-300 text-stone-300 dark:text-stone-300 light:text-stone-700 text-[10px]">TypeScript</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-950/60 dark:bg-emerald-950/60 light:bg-emerald-100 text-emerald-400 dark:text-emerald-400 light:text-emerald-700 text-[10px]">UTF-8</span>
+                </div>
+            </div>
+
+            <!-- Code Header Section -->
+            <div class="p-6 sm:p-8 border-b border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight bg-ideBgDark/30 dark:bg-ideBgDark/30 light:bg-stone-50">
+                <div class="font-mono text-sm leading-relaxed space-y-2">
+                    <p class="text-syntaxComment dark:text-syntaxComment light:text-syntaxLightComment">
+                        /**<br>
+                        &nbsp;* @file donate.ts<br>
+                        &nbsp;* @author TurboV<br>
+                        &nbsp;* @description Fueling development, new features, and late night code sessions.<br>
+                        &nbsp;*/
+                    </p>
+                    <p class="pt-2">
+                        <span class="text-syntaxKeyword dark:text-syntaxKeyword light:text-syntaxLightKeyword">import</span> 
+                        <span class="text-syntaxString dark:text-syntaxString light:text-syntaxLightString">{ Coffee, Gratitude }</span> 
+                        <span class="text-syntaxKeyword dark:text-syntaxKeyword light:text-syntaxLightKeyword">from</span> 
+                        <span class="text-syntaxString dark:text-syntaxString light:text-syntaxLightString">'@turbov/community'</span>;
+                    </p>
+                </div>
+
+                <!-- Direct Ko-fi Button -->
+                <div class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-lg bg-ideBgDark dark:bg-ideBgDark light:bg-white border border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight">
+                    <div>
+                        <h2 class="text-base font-semibold font-mono flex items-center gap-2">
+                            <span class="text-emerald-400">⚡</span>
+                            <span>Support TurboV Development</span>
+                        </h2>
+                        <p class="text-xs text-ideMutedDark dark:text-ideMutedDark light:text-ideMutedLight mt-0.5">
+                            // Direct link opens in a new window
+                        </p>
+                    </div>
+
+                    <a href="https://ko-fi.com/turbov" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2.5 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-sm font-bold rounded-lg shadow-lg shadow-emerald-950/40 hover:shadow-emerald-900/60 active:scale-95 transition-all duration-150 group">
+                        <svg class="w-5 h-5 fill-current animate-bounce" viewBox="0 0 24 24">
+                            <path d="M23.881 8.948c-.073-.552-.541-.976-1.099-.976H21.37c.189-.838.216-1.723-.087-2.618-.532-1.571-2.028-2.615-3.69-2.587-1.428.024-2.673.818-3.327 1.986-.654-1.168-1.899-1.962-3.327-1.986-1.662-.028-3.158 1.016-3.69 2.587-.303.895-.276 1.78.087 2.618H1.218c-.558 0-1.026.424-1.099.976-.088.665.176 1.332.684 1.722L12 21.846l11.197-11.176c.508-.39.772-1.057.684-1.722z"/>
+                        </svg>
+                        <span>https://ko-fi.com/turbov</span>
+                        <span class="text-emerald-200 group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-6">
+                <div class="mb-3 flex items-center justify-between font-mono text-xs text-ideMutedDark dark:text-ideMutedDark light:text-ideMutedLight">
+                    <span>// Interactive Embedded Ko-fi Widget</span>
+                    <span class="text-[11px]">&lt;iframe id="kofiframe"&gt;</span>
+                </div>
+
+                <!-- Dark-mode optimized Ko-fi Iframe Wrapper -->
+                <div id="kofiframe-container" class="rounded-lg overflow-hidden border border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight transition-colors duration-200 p-1">
+                    <iframe id='kofiframe' src='https://ko-fi.com/turbov/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;' height='712' title='turbov'></iframe>
+                </div>
+            </div>
+
+            <div class="border-t border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight bg-ideBgDark/90 dark:bg-ideBgDark/90 light:bg-stone-900 text-stone-300 p-4 font-mono text-xs">
+                <div class="flex items-center justify-between mb-2 pb-2 border-b border-stone-800">
+                    <div class="flex items-center gap-2">
+                        <span class="text-emerald-400">TERMINAL</span>
+                        <span class="text-stone-500">|</span>
+                        <span class="text-stone-400">OUTPUT</span>
+                    </div>
+                    <span class="text-stone-500 text-[10px]">process exited with code 0</span>
+                </div>
+                <div class="space-y-1 text-stone-400">
+                    <p><span class="text-emerald-400">✔</span> System initialized successfully.</p>
+                    <p><span class="text-sky-400">ℹ</span> Theme set: Dark Mode (Dark Ko-fi integration enabled)</p>
+                    <p class="text-stone-500">$ <span class="animate-pulse">_</span></p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="border-t border-ideBorderDark dark:border-ideBorderDark light:border-ideBorderLight bg-idePanelDark dark:bg-idePanelDark light:bg-idePanelLight px-4 py-2 font-mono text-xs text-ideMutedDark dark:text-ideMutedDark light:text-ideMutedLight">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>Ready</span>
+                </span>
+                <span>Main branch</span>
+            </div>
+            <div>
+                © TurboV — Built with coffee & code
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function updateThemeUI(isDark) {
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
+            
+            if (isDark) {
+                icon.textContent = '🌙';
+                label.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                label.textContent = 'Light';
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDarkCurrently = html.classList.contains('dark');
+            
+            if (isDarkCurrently) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                localStorage.setItem('turbov_theme', 'light');
+                updateThemeUI(false);
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                localStorage.setItem('turbov_theme', 'dark');
+                updateThemeUI(true);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            updateThemeUI(isDark);
+        });
+    </script>
+</body>
+</html>
