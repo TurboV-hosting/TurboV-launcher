@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support TurboV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:wght@400;500;700;800&family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .donate{padding:64px 0 30px;max-width:640px}
+  .donate h1{font-size:clamp(2.2rem,5vw,3.2rem)}
+  .donate h1 em{color:var(--accent)}
+  .donate p{color:#cfc4ae;margin:20px 0 0}
+  .kofi{display:inline-flex;align-items:center;gap:10px;margin-top:28px}
+  .kofi svg{width:22px;height:22px;fill:currentColor}
+  .frame{margin:30px 0 20px;border:1px solid var(--line);border-radius:6px;padding:6px;background:#121212;max-width:720px}
+  .frame iframe{border:0;width:100%;display:block;border-radius:4px;filter:invert(.9) hue-rotate(180deg) contrast(1.05) brightness(.95);background:#121212}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html">Turbo<b>V</b></a>
+    <nav><a href="index.html">&larr; Back to the main page</a></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="donate">
+    <span class="note">you absolutely don't have to</span>
+    <h1>Help keep the <em>late nights</em> going.</h1>
+    <p>TurboV is free and will stay free. If you like it and want to chip in, donations go toward development time, new features and the odd coffee. If you'd rather not, no hard feelings. Telling a friend about it helps just as much.</p>
+    <a class="btn main kofi" href="https://ko-fi.com/turbov" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.881 8.948c-.073-.552-.541-.976-1.099-.976H21.37c.189-.838.216-1.723-.087-2.618-.532-1.571-2.028-2.615-3.69-2.587-1.428.024-2.673.818-3.327 1.986-.654-1.168-1.899-1.962-3.327-1.986-1.662-.028-3.158 1.016-3.69 2.587-.303.895-.276 1.78.087 2.618H1.218c-.558 0-1.026.424-1.099.976-.088.665.176 1.332.684 1.722L12 21.846l11.197-11.176c.508-.39.772-1.057.684-1.722z"/></svg>
+      Support on Ko-fi
+    </a>
+  </div>
+
+  <div class="frame">
+    <iframe id="kofiframe" src="https://ko-fi.com/turbov/?hidefeed=true&widget=true&embed=true&preview=true" height="712" title="Support TurboV on Ko-fi"></iframe>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div><p>Thanks for stopping by. Made by one person, with a lot of coffee.</p></div>
+    <div><a href="index.html">Home</a><a href="https://discord.gg/Tva9yh7z5a" target="_blank" rel="noopener noreferrer">Discord</a></div>
+  </div>
+</footer>
+</body>
+</html>

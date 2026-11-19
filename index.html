@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TurboV Launcher</title>
+<meta name="description" content="A free game launcher that finds your Steam games, lets you add anything else, and tracks your playtime. No store, no ads, no account.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Sans:wght@400;500;700;800&family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">Turbo<b>V</b></a>
+    <nav>
+      <a href="#try">Try it</a>
+      <a href="#what">What it does</a>
+      <a href="#talks">Privacy</a>
+      <a href="#faq">Questions</a>
+      <a href="dono.html">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <span class="note">still a work in progress, so expect rough edges</span>
+      <h1>One window for <em>every game</em> on your PC.</h1>
+      <p>TurboV finds your installed Steam games on its own, lets you add anything else you want to launch, and keeps track of how long you've played. I built it because I wanted a plain, quick launcher without a store, ads or a login. It's free, and everything it saves stays in a file next to the program.</p>
+      <div class="btns">
+        <a class="btn main" href="https://github.com/TurboV-hosting/launcherdownloader/releases/download/Auto-Updates/TurboV-launcher.exe">Download (.exe)</a>
+        <a class="btn" href="https://discord.gg/Tva9yh7z5a" target="_blank" rel="noopener noreferrer">Come say hi on Discord</a>
+      </div>
+    </div>
+    <aside class="aside">
+      <h3>At a glance</h3>
+      <ul>
+        <li><span>Price</span><span>Free</span></li>
+        <li><span>Runs on</span><span>Windows, Linux</span></li>
+        <li><span>Store / ads</span><span>None</span></li>
+        <li><span>Account needed</span><span>No</span></li>
+        <li><span>Steam key</span><span>Optional</span></li>
+      </ul>
+      <span class="note">bug reports and ideas welcome in Discord!</span>
+    </aside>
+  </div>
+</div>
+
+<section id="try">
+  <div class="wrap">
+    <h2>Have a poke around</h2>
+    <p class="sub">This is a working copy of the real window, filled with made-up games. Click a game, double-click to "launch" it, right-click for the menu, try the filters, sorting and the Settings button. Nothing here touches your computer.</p>
+
+    <div class="win" id="win">
+      <div class="bar"><span>TurboV Launcher</span><i>– ▫ ×</i></div>
+
+      <div class="lhead">
+        <div class="brand">TURBO<b>V</b></div>
+        <div class="stats" id="stats"></div>
+        <div class="sp"></div>
+        <input id="q" type="text" placeholder="Search games & applications..." style="width:170px">
+        <select id="flt">
+          <option>All Platforms</option>
+          <option>⭐ Favorites Only</option>
+          <option>Steam Games</option>
+          <option>Custom / FiveM</option>
+          <option>🙈 Hidden</option>
+        </select>
+        <select id="srt">
+          <option>Sort: Name (A-Z)</option>
+          <option>Sort: Most Played</option>
+          <option>Sort: Recently Played</option>
+          <option>Sort: Platform</option>
+        </select>
+        <button id="b-rand" title="Pick a random game from the current list">🎲 Random</button>
+        <button id="b-add">+ Add Game</button>
+        <button id="b-sync">⟳ Sync</button>
+        <button id="b-set">⚙ Settings</button>
+      </div>
+
+      <div class="ltabs">
+        <button class="on" id="t-lib">🎮 My Library</button>
+        <button id="t-fm">FiveM Servers registered with us</button>
+      </div>
+
+      <div id="pane-lib" class="app">
+        <div class="grid" id="grid"></div>
+        <div class="side" id="side" style="display:none">
+          <div class="cover" id="d-cover"></div>
+          <div class="tt"><h3 id="d-title"></h3><button class="x" id="d-close" title="Close details">✕</button></div>
+          <div class="pt"><b id="d-play"></b><span id="d-last"></span></div>
+          <div class="dtabs"><button class="on" id="dt-o">Overview</button><button id="dt-n">📝 Notepad</button></div>
+          <div id="d-over" style="display:flex;flex-direction:column;gap:8px">
+            <small id="d-tags"></small>
+            <p id="d-desc"></p>
+            <b>DLC</b><div class="box" id="d-dlc"></div>
+            <b>Friends Playing</b><div class="box m" id="d-fr"></div>
+          </div>
+          <div id="d-notes" style="display:none">
+            <div style="color:var(--l-muted);font-size:.78rem;margin-bottom:6px">Personal Game Notes &amp; Quick Notepad:</div>
+            <textarea id="d-ta" placeholder="Store server IPs, cheat codes, mod notes, keybinds..."></textarea>
+          </div>
+          <button class="go" id="d-go">LAUNCH GAME</button>
+        </div>
+      </div>
+
+      <div id="pane-fm" style="display:none">
+        <div class="fivem-top">
+          <input id="fq" type="text" placeholder="Search registered servers...">
+          <button id="fr">⟳ Refresh Servers</button>
+          <span id="fs"></span>
+        </div>
+        <div class="grid" id="fgrid"></div>
+      </div>
+
+      <div class="status" id="status">Ready</div>
+    </div>
+    <div class="note" style="margin-top:14px">the games, hours and servers are all invented</div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="wrap">
+    <h2>What it actually does</h2>
+    <p class="sub">No big promises, just what's in the program right now.</p>
+    <div class="cols">
+      <div>
+        <h3>Finds your Steam games</h3>
+        <p>It reads Steam's own library files, including extra drives, so installed games just show up. Playtime and last-played dates come from your local Steam data.</p>
+      </div>
+      <div>
+        <h3>Add anything else</h3>
+        <p>Point it at an .exe, .sh or .bat, give it a name and optional launch parameters, and it joins the grid. Good for VR tools, emulators, mod managers and random utilities.</p>
+      </div>
+      <div>
+        <h3>Counts your hours</h3>
+        <p>For non-Steam programs it times how long they stay open. It starts them separately, so closing the launcher won't close your game. You can also type in hours by hand.</p>
+      </div>
+      <div>
+        <h3>Looks the way you want</h3>
+        <p>Pick your own colours, background image, font, card size and corner roundness. The Settings button in the demo above does some of this for real.</p>
+      </div>
+      <div>
+        <h3>Notes for each game</h3>
+        <p>There's a little notepad on every game for server IPs, keybinds, mod lists, whatever you'd otherwise forget.</p>
+      </div>
+      <div>
+        <h3>FiveM built in</h3>
+        <p>If FiveM is installed it appears in your library, and a tab lists servers registered with us so you can connect or jump to their Discord.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.3rem;margin:50px 0 14px">Little things</h3>
+    <ul class="tips">
+      <li>Double-click a card to launch it.</li>
+      <li><kbd>Ctrl</kbd>+<kbd>F</kbd> jumps to search, <kbd>F5</kbd> rescans your libraries.</li>
+      <li>Right-click a game to rename it, set custom cover art, change its exe, set launch options or hide it.</li>
+      <li>Favourite games and filter to just those.</li>
+      <li>Sort by name, most played, recently played or platform.</li>
+      <li>The Random button picks something when you can't decide.</li>
+      <li>Optional Steam API key: more accurate playtime, plus which friends are in a game right now.</li>
+      <li>Checks for new releases and asks before updating. It verifies the download's checksum and lets you skip a release.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="talks">
+  <div class="wrap">
+    <h2>What it talks to</h2>
+    <p class="sub">TurboV doesn't have accounts or analytics. It does go online for a few things, and I'd rather you know exactly what.</p>
+    <table class="talks">
+      <tr><td>GitHub</td><td>Checks for a newer release shortly after it starts, then every 30 minutes while it's open. Updates only download if you say yes.</td></tr>
+      <tr><td>Steam</td><td>Cover art and the store description, genres and DLC for a selected game. If you add your own API key and Steam ID, it also fetches your playtime and your friends' in-game status.</td></tr>
+      <tr><td>Our server list</td><td>Only if FiveM is installed. It downloads the list of registered servers and their logos.</td></tr>
+    </table>
+    <p class="hint">Everything else lives in a <code>turbov_config.json</code> file next to the program: favourites, notes, playtime, theme and your Steam key. The key is stored as plain text there, so don't share that file. Deleting the file resets the launcher.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions people ask</h2>
+    <details>
+      <summary>Why did you build this?</summary>
+      <p>I got tired of heavy game clients that take ages to load just so I can start something. I wanted one fast, dark window with all my games in it, and room to add the odd non-game program too.</p>
+    </details>
+    <details>
+      <summary>Is it really free?</summary>
+      <p>Yes. There's no store, no ads and no locked features. If you want to chip in anyway, there's a <a href="dono.html">donate page</a>, but it's never required.</p>
+    </details>
+    <details>
+      <summary>Does it only work with Steam?</summary>
+      <p>No. Steam games are detected automatically, but you can add any program yourself, and FiveM is picked up if you have it. Other stores' games can go in as custom entries by pointing to their exe.</p>
+    </details>
+    <details>
+      <summary>Why are some of my playtimes different from Steam's?</summary>
+      <p>Steam games use Steam's own numbers, or the larger of Steam's and anything you've typed in. Custom programs use time the launcher measured itself while they were open.</p>
+    </details>
+    <details>
+      <summary>Where do I report bugs or ask for features?</summary>
+      <p>The Discord server. It's still being worked on, and that's where I'm easiest to reach.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><strong style="color:var(--ink)">TurboV Launcher</strong> is a free, non-commercial project made by one person.</p>
+      <p>We're not associated with Steam, Valve or any game company. This is just a launcher.</p>
+    </div>
+    <div>
+      <a href="dono.html">Donate</a>
+      <a href="https://github.com/TurboV-hosting/launcherdownloader/releases/download/Auto-Updates/TurboV-launcher.exe">Download</a>
+      <a href="https://discord.gg/Tva9yh7z5a" target="_blank" rel="noopener noreferrer">Discord</a>
+    </div>
+  </div>
+</footer>
+
+<div class="ctx" id="ctx"></div>
+
+<div id="modal" onclick="if(event.target===this)closeModal()">
+  <div>
+    <h3 id="m-title"></h3>
+    <p id="m-msg"></p>
+    <div id="m-extra"></div>
+    <button class="btn main" onclick="closeModal()" style="cursor:pointer;font:inherit;font-weight:700">Got it</button>
+  </div>
+</div>
+
+<script>
+(function(){
+const H=3600;
+// Made-up sample library. type: steam | custom | fivem. play = seconds, last = days ago (null = never)
+const games=[
+ {k:'sea',name:'Sea of Thieves',type:'steam',play:212*H+840,last:3,bg:'#042f2e',fg:'#34d399',genres:'Action, Adventure, Multiplayer',desc:'Sail a shared open world with friends. (Sample description.)',dlc:[]},
+ {k:'arma',name:'Arma Reforger',type:'steam',play:64*H+1500,last:12,bg:'#1e293b',fg:'#f59e0b',genres:'Action, Simulation',desc:'A tactical military sandbox. (Sample description.)',dlc:[]},
+ {k:'beam',name:'BeamNG.drive',type:'steam',play:301*H+2220,last:1,bg:'#361e0c',fg:'#f97316',genres:'Racing, Simulation',desc:'Soft-body vehicle physics with plenty of room to crash things. (Sample description.)',dlc:[]},
+ {k:'auto',name:'Automation - The Car Company Tycoon Game',type:'steam',play:48*H+600,last:20,bg:'#3f1620',fg:'#f43f5e',genres:'Indie, Racing, Simulation, Strategy, Early Access',desc:'Design cars and engines, then run the company that builds them. (Sample description.)',dlc:['Supporter Pack - Official Soundtrack','Supporter Pack - V16 Engine','Automation - Original Soundtrack']},
+ {k:'vrc',name:'VRChat',type:'steam',play:880*H+300,last:0,bg:'#0c4a6e',fg:'#38bdf8',genres:'Free To Play, Massively Multiplayer',desc:'Hang out in user-made worlds. (Sample description.)',dlc:[]},
+ {k:'wall',name:'Wallpaper Engine',type:'steam',play:12*H,last:40,bg:'#075985',fg:'#e0f2fe',genres:'Utilities, Animation & Modeling',desc:'Animated wallpapers for your desktop. (Sample description.)',dlc:[]},
+ {k:'rust',name:'Rustangelo',type:'steam',play:0,last:null,bg:'#451a03',fg:'#eab308',genres:'Utilities',desc:'A sign painting helper. (Sample description.)',dlc:[]},
+ {k:'vail',name:'VAIL',type:'steam',play:5*H+900,last:90,bg:'#064e3b',fg:'#10b981',genres:'Action, VR, Tactical',desc:'A tactical VR shooter. (Sample description.)',dlc:[]},
+ {k:'obs',name:'OBS Studio',type:'custom',play:36*H+1800,last:2,path:'C:\\Program Files\\obs-studio\\bin\\64bit\\obs64.exe'},
+ {k:'blend',name:'Blender',type:'custom',play:120*H,last:6,path:'C:\\Program Files\\Blender Foundation\\Blender\\blender.exe'},
+ {k:'vrcft',name:'VRCFaceTracking',type:'custom',play:9*H+240,last:15,path:'D:\\Tools\\VRCFaceTracking\\VRCFaceTracking.exe'},
+ {k:'upl',name:'Upload Labs',type:'custom',play:0,last:null,path:'D:\\Games\\UploadLabs\\UploadLabs.exe'},
+ {k:'fivem',name:'FiveM',type:'fivem',play:77*H+120,last:5,path:'fivem://'}
+];
+const servers=[
+ {n:'Example Roleplay City',c:'#3b2410',f:'#f97316'},
+ {n:'Sample Racing Server',c:'#1f2937',f:'#d1d5db'},
+ {n:'Demo Freeroam',c:'#064e3b',f:'#10b981'}
+];
+const S={fav:new Set(['beam','vrc']),hid:new Set(['wall']),names:{},notes:{},sel:null,cur:null,list:[]};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dn=g=>S.names[g.k]||g.name;
+function fmtH(s){const h=Math.floor(s/H),m=Math.floor((s%H)/60);if(s<=0)return'0 Hours';if(h===0)return m+' Minutes';return h.toLocaleString()+' Hours, '+m+' Minutes'}
+function fmtLast(d){if(d===null)return'Never';const t=new Date(Date.now()-d*864e5);return t.toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'})}
+function status(t){$('status').textContent=t;clearTimeout(status.t);status.t=setTimeout(()=>$('status').textContent='Ready',4000)}
+
+function modal(title,msg,extra){$('m-title').textContent=title;$('m-msg').textContent=msg;$('m-extra').innerHTML=extra||'';$('modal').classList.add('on')}
+window.closeModal=()=>$('modal').classList.remove('on');
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();hideCtx()}});
+
+function coverHTML(g,extra){
+  if(g.type==='steam')return `<div class="cover" style="background:${g.bg};color:${g.fg}">${extra||''}${esc(g.name.length>30?g.name.slice(0,28)+'…':g.name)}</div>`;
+  return `<div class="cover plain">${extra||''}${g.type==='custom'?'🎮':'FiveM'}</div>`;
+}
+
+function stats(){
+  const v=games.filter(g=>!S.hid.has(g.k));
+  const f=v.filter(g=>S.fav.has(g.k)).length;
+  const h=v.reduce((a,g)=>a+g.play,0)/H;
+  $('stats').textContent=`Library: ${v.length} Games (${f} ⭐) | ${h.toLocaleString(undefined,{minimumFractionDigits:1,maximumFractionDigits:1})} Total Hours`;
+}
+
+function filtered(){
+  const q=$('q').value.trim().toLowerCase(), m=$('flt').selectedIndex, s=$('srt').selectedIndex;
+  let l=games.filter(g=>{
+    if(q&&!dn(g).toLowerCase().includes(q))return false;
+    const hid=S.hid.has(g.k);
+    if(m===4){if(!hid)return false}else if(hid)return false;
+    if(m===1&&!S.fav.has(g.k))return false;
+    if(m===2&&g.type!=='steam')return false;
+    if(m===3&&g.type==='steam')return false;
+    return true;
+  });
+  if(s===0)l.sort((a,b)=>dn(a).toLowerCase().localeCompare(dn(b).toLowerCase()));
+  if(s===1)l.sort((a,b)=>b.play-a.play);
+  if(s===2)l.sort((a,b)=>(a.last===null?1e9:a.last)-(b.last===null?1e9:b.last));
+  if(s===3)l.sort((a,b)=>a.type.localeCompare(b.type)||dn(a).toLowerCase().localeCompare(dn(b).toLowerCase()));
+  return l;
+}
+
+function render(){
+  S.list=filtered(); stats();
+  const box=$('grid');
+  if(!S.list.length){box.innerHTML='<div class="empty">No games found.\nTry changing the filter, or use \'+ Add Game\' / \'⟳ Sync\'.</div>';return}
+  box.innerHTML='';
+  S.list.forEach(g=>{
+    const el=document.createElement('div');
+    el.className='card'+(S.sel===g.k?' sel':'');
+    el.style.cursor='pointer';
+    el.innerHTML=coverHTML(g,S.fav.has(g.k)?'<span class="star">★</span>':'')+
+      `<h4>${esc(dn(g))}</h4><div class="sub">${g.play?(g.play/H).toLocaleString(undefined,{minimumFractionDigits:1,maximumFractionDigits:1})+' h played':'Not played yet'}</div><button class="play">PLAY</button>`;
+    el.onclick=()=>show(g);
+    el.ondblclick=()=>launch(g);
+    el.oncontextmenu=e=>{e.preventDefault();ctx(e.clientX,e.clientY,g)};
+    el.querySelector('button').onclick=e=>{e.stopPropagation();launch(g)};
+    box.appendChild(el);
+  });
+}
+
+function show(g){
+  S.sel=g.k;S.cur=g;
+  $('side').style.display='flex';
+  $('d-cover').outerHTML=coverHTML(g).replace('class="cover','id="d-cover" class="cover');
+  $('d-title').textContent=dn(g);
+  $('d-play').textContent='⏳ Playtime: '+fmtH(g.play);
+  $('d-last').textContent='Last played: '+fmtLast(g.last);
+  if(g.type==='steam'){
+    $('d-tags').textContent='Genres: '+g.genres;
+    $('d-desc').textContent=g.desc;
+    $('d-dlc').textContent=g.dlc.length?g.dlc.join('\n'):'No DLCs or expansions detected.';
+    $('d-dlc').style.whiteSpace='pre-line';
+    $('d-fr').textContent='Add a Steam API key in Settings to see friends.';
+  }else{
+    $('d-tags').textContent=g.type==='custom'?'Type: Custom Executable':'Type: FiveM Multiplayer';
+    $('d-desc').textContent='Local custom application.\nPath:\n'+g.path;
+    $('d-dlc').textContent='N/A for custom applications.';
+    $('d-fr').textContent='N/A for custom applications.';
+  }
+  $('d-ta').value=S.notes[g.k]||'';
+  render();
+}
+$('d-ta').oninput=()=>{if(S.cur)S.notes[S.cur.k]=$('d-ta').value};
+$('d-close').onclick=()=>{$('side').style.display='none';S.sel=null;render()};
+$('d-go').onclick=()=>S.cur&&launch(S.cur);
+$('dt-o').onclick=()=>{$('d-over').style.display='flex';$('d-notes').style.display='none';$('dt-o').className='on';$('dt-n').className=''};
+$('dt-n').onclick=()=>{$('d-over').style.display='none';$('d-notes').style.display='block';$('dt-n').className='on';$('dt-o').className=''};
+
+function launch(g){
+  g.last=0; if(S.cur===g)$('d-last').textContent='Last played: '+fmtLast(0);
+  status('Launching '+dn(g)+'...');
+  modal('Pretend launch','If this were the real launcher, "'+dn(g)+'" would be starting up right now.');
+  render();
+}
+
+// context menu (same items as the real one)
+const ctxEl=$('ctx');
+function hideCtx(){ctxEl.style.display='none'}
+document.addEventListener('click',hideCtx);
+window.addEventListener('scroll',hideCtx,{passive:true});
+function ctx(x,y,g){
+  const info=(t,m)=>()=>modal(t,m);
+  const items=[
+    [S.fav.has(g.k)?'⭐ Remove Favorite':'⭐ Mark as Favorite',()=>{S.fav.has(g.k)?S.fav.delete(g.k):S.fav.add(g.k);render()}],
+    ['✏ Rename Title',()=>{const n=prompt('Custom Title:',dn(g));if(n&&n.trim()){S.names[g.k]=n.trim();if(S.cur===g)$('d-title').textContent=n.trim();render()}}],
+    ['📂 Change Game Executable Path',info('Change path','The real launcher opens a file picker here so you can point a game at a different .exe, .sh or .bat.')],
+    ['⏱ Edit Playtime',()=>{const h=prompt('Set total hours played for '+dn(g)+':',Math.floor(g.play/H));if(h!==null&&!isNaN(+h)&&+h>=0){g.play=Math.floor(+h)*H;if(S.cur===g)$('d-play').textContent='⏳ Playtime: '+fmtH(g.play);render()}}],
+    ['🖼 Set Custom Artwork',info('Custom artwork','The real launcher lets you pick any image to use as the cover.')],
+    ['⚙ Set Launch Options',info('Launch options','The real launcher asks for parameters here, like -novid -fullscreen.')],
+    ['📁 Browse Local Files',info('Browse files','The real launcher opens the game\'s install folder.')]
+  ];
+  if(g.type==='steam')items.push(['🌐 Steam Store Page',info('Steam store page','The real launcher opens the game\'s page on the Steam store.')]);
+  items.push('-');
+  items.push([S.hid.has(g.k)?'👁 Unhide Game':'🙈 Hide from Library',()=>{S.hid.has(g.k)?S.hid.delete(g.k):S.hid.add(g.k);render()}]);
+  if(g.type==='custom')items.push(['🗑 Remove Custom Entry',()=>{if(confirm('Remove \''+dn(g)+'\' from your library?')){games.splice(games.indexOf(g),1);if(S.cur===g){S.cur=null;S.sel=null;$('side').style.display='none'}render()}}]);
+  ctxEl.innerHTML='';
+  items.forEach(it=>{
+    if(it==='-'){ctxEl.appendChild(document.createElement('hr'));return}
+    const d=document.createElement('div');d.textContent=it[0];d.onclick=ev=>{ev.stopPropagation();hideCtx();it[1]()};ctxEl.appendChild(d);
+  });
+  ctxEl.style.display='block';
+  const r=ctxEl.getBoundingClientRect();
+  ctxEl.style.left=Math.min(x,innerWidth-r.width-8)+'px';
+  ctxEl.style.top=Math.min(y,innerHeight-r.height-8)+'px';
+}
+
+// top bar
+$('q').oninput=render;$('flt').onchange=render;$('srt').onchange=render;
+$('b-rand').onclick=()=>{if(S.list.length)show(S.list[Math.floor(Math.random()*S.list.length)])};
+$('b-sync').onclick=()=>{render();status('Synced '+games.length+' games')};
+$('b-add').onclick=()=>modal('Add Local Application','In the real launcher you enter a name, browse to an .exe, .sh or .bat, and optionally add launch parameters like -novid -fullscreen. It then joins your library.');
+
+// tabs
+$('t-lib').onclick=()=>{$('pane-lib').style.display='grid';$('pane-fm').style.display='none';$('t-lib').className='on';$('t-fm').className=''};
+$('t-fm').onclick=()=>{$('pane-lib').style.display='none';$('pane-fm').style.display='block';$('t-fm').className='on';$('t-lib').className='';renderF()};
+function renderF(){
+  const q=$('fq').value.trim().toLowerCase();
+  const l=servers.filter(s=>s.n.toLowerCase().includes(q));
+  $('fs').textContent=servers.length+' servers';
+  const box=$('fgrid');
+  if(!l.length){box.innerHTML='<div class="empty">No registered FiveM servers found.</div>';return}
+  box.innerHTML='';
+  l.forEach(s=>{
+    const el=document.createElement('div');el.className='card fcard';
+    el.innerHTML=`<div class="cover" style="background:${s.c};color:${s.f}">${esc(s.n)}</div><h4>${esc(s.n)}</h4><button class="play">CONNECT SERVER</button><button class="alt">Join Discord</button>`;
+    const b=el.querySelectorAll('button');
+    b[0].onclick=()=>modal('Connect','The real launcher opens fivem://connect/... so FiveM joins this server.');
+    b[1].onclick=()=>modal('Discord','The real launcher opens the server\'s Discord invite in your browser.');
+    box.appendChild(el);
+  });
+}
+$('fq').oninput=renderF;$('fr').onclick=()=>{renderF();$('fs').textContent='Loading...';setTimeout(renderF,500)};
+$('t-fm').title='This tab only appears in the real launcher when FiveM is installed';
+
+// settings: live accent + corner radius, like the real Appearance tab
+const win=$('win');
+const accents=['#5865F2','#f2784b','#3ba55d','#eb459e','#e5a823'];
+$('b-set').onclick=()=>{
+  const cur=getComputedStyle(win).getPropertyValue('--l-accent').trim().toLowerCase();
+  const r=parseInt(getComputedStyle(win).getPropertyValue('--l-r'));
+  modal('Preferences & Customization','This is a small slice of the real Appearance tab. The real one also has background colour, wallpaper, fonts, card size, your Steam API key and update controls.',
+   `<div class="setrow"><label>Accent colour</label><span id="sws">${accents.map(c=>`<button class="sw${c.toLowerCase()===cur?' on':''}" data-c="${c}" style="background:${c}"></button>`).join(' ')}</span></div>
+    <div class="setrow"><label>Corner radius</label><input type="range" id="rad" min="0" max="30" value="${r}"> <span id="radv">${r}px</span></div>`);
+  document.querySelectorAll('#sws .sw').forEach(b=>b.onclick=()=>{
+    win.style.setProperty('--l-accent',b.dataset.c);ctxEl.style.setProperty('--acc',b.dataset.c);
+    document.querySelectorAll('#sws .sw').forEach(x=>x.classList.toggle('on',x===b));
+  });
+  $('rad').oninput=e=>{win.style.setProperty('--l-r',e.target.value+'px');$('radv').textContent=e.target.value+'px'};
+};
+
+render();
+show(games.find(g=>g.k==='auto'));
+})();
+</script>
+</body>
+</html>
